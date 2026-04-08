@@ -207,6 +207,33 @@ class MCPScannerConstants:
         os.getenv("MCP_SCANNER_VULNERABLE_PACKAGES_TIMEOUT", "120")
     )
 
+    # VirusTotal Configuration
+    ENV_VIRUSTOTAL_API_KEY: str = os.getenv(
+        "MCP_SCANNER_ENV_VIRUSTOTAL_API_KEY_NAME", "VIRUSTOTAL_API_KEY"
+    )
+    _VIRUSTOTAL_ENABLED_RAW: str = os.getenv("MCP_SCANNER_VIRUSTOTAL_ENABLED", "")
+    VIRUSTOTAL_ENABLED: bool = (
+        True if _VIRUSTOTAL_ENABLED_RAW.lower() in ("true", "1", "yes")
+        else False if _VIRUSTOTAL_ENABLED_RAW.lower() in ("false", "0", "no")
+        else None
+    )
+    VIRUSTOTAL_UPLOAD_FILES: bool = os.getenv(
+        "MCP_SCANNER_VIRUSTOTAL_UPLOAD_FILES", "false"
+    ).lower() in ("true", "1", "yes")
+    VIRUSTOTAL_MAX_FILES: int = int(
+        os.getenv("MCP_SCANNER_VT_MAX_FILES", "10")
+    )
+    VIRUSTOTAL_INCLUSION_EXTENSIONS: set = set(
+        ext.strip()
+        for ext in os.getenv("MCP_SCANNER_VT_INCLUSION_EXTENSIONS", "").split(",")
+        if ext.strip()
+    )
+    VIRUSTOTAL_EXCLUSION_EXTENSIONS: set = set(
+        ext.strip()
+        for ext in os.getenv("MCP_SCANNER_VT_EXCLUSION_EXTENSIONS", "").split(",")
+        if ext.strip()
+    )
+
     # OAuth Configuration
     OAUTH_CLIENT_NAME: str = os.getenv(
         "MCP_SCANNER_OAUTH_CLIENT_NAME", "MCP Scanner Client"
